@@ -27,25 +27,46 @@
 
         <q-separator />
 
-        <q-banner
-          v-if="error"
-          class="text-white bg-negative"
-        >{{
-          error
-        }}</q-banner>
-
         <q-card-section>
-          <q-file
-            filled
-            lazy-rules
-            accept=".xml"
-            counter
-            v-model="model.citaviFile"
-            :label="`${$t('form.modsXml')}*`"
-            :hint="$t('form.modsXmlHint')"
-            :rules="[(val) => !!val || $t('form.validation.required')]"
-            :counter-label="showSize"
-          />
+          <div class="q-mb-md">
+            <q-file
+              filled
+              lazy-rules
+              accept=".xml"
+              counter
+              v-model="model.modsXml"
+              :label="`${$t('form.modsXml')}*`"
+              :hint="$t('form.modsXmlHint')"
+              :rules="[(val) => !!val || $t('form.validation.required')]"
+              :counter-label="showSize"
+            />
+          </div>
+          <div class="q-mb-md">
+            <q-file
+              filled
+              lazy-rules
+              accept=".xslt"
+              counter
+              v-model="model.collectionsXslt"
+              :label="`${$t('form.collectionsXslt')}*`"
+              :hint="$t('form.collectionsXsltHint')"
+              :rules="[(val) => !!val || $t('form.validation.required')]"
+              :counter-label="showSize"
+            />
+          </div>
+          <div class="q-mb-md">
+            <q-file
+              filled
+              lazy-rules
+              accept=".xslt"
+              counter
+              v-model="model.licencesXslt"
+              :label="`${$t('form.licencesXslt')}*`"
+              :hint="$t('form.licencesXsltHint')"
+              :rules="[(val) => !!val || $t('form.validation.required')]"
+              :counter-label="showSize"
+            />
+          </div>
         </q-card-section>
 
         <q-card-actions>
@@ -61,6 +82,13 @@
             flat
             class="q-ml-sm"
           />
+          <q-space />
+          <a
+            :href="$t('contactMailTo')"
+            class="text-primary"
+          >
+            {{ $t('contact') }}
+          </a>
         </q-card-actions>
       </q-card>
 
@@ -75,9 +103,7 @@
 </template>
 
 <script>
-import {
-  defineComponent, ref, toRaw,
-} from 'vue';
+import { defineComponent, ref, toRaw } from 'vue';
 import { transformXML } from 'src/helpers';
 import XmlDialog from 'src/components/XmlDialog.vue';
 
@@ -85,15 +111,16 @@ export default defineComponent({
   components: { XmlDialog },
   setup() {
     const model = ref({
-      citaviFile: null,
+      modsXml: null,
+      collectionsXslt: null,
+      licencesXslt: null,
     });
-    const error = ref('');
     const showDialog = ref(false);
     const transformedXml = ref('');
 
     const onSubmit = () => {
-      const unwrapped = toRaw(model.value);
-      transformXML(unwrapped.citaviFile)
+      const files = toRaw(model.value);
+      transformXML(files)
         .then((xmlString) => {
           transformedXml.value = xmlString;
           showDialog.value = true;
@@ -102,7 +129,7 @@ export default defineComponent({
 
     const onReset = () => {
       model.value = {
-        citaviFile: null,
+        modsXml: null,
       };
     };
 
@@ -116,7 +143,6 @@ export default defineComponent({
 
     return {
       model,
-      error,
       onSubmit,
       onReset,
       showSize,
