@@ -2,13 +2,13 @@
 // so you can safely delete all default props below
 
 export default {
-  contact: 'Kontakt / Hilfe',
-  contactMailTo: 'mailto:opus.bibliothek@hs-duesseldorf.de?subject=HSDopuse%20Import%20Kontaktanfrage',
+  contact: 'Bei Fragen, Problemen oder Anregungen wenden Sie sich an: opus.bibliothek(at)hs-duesseldorf.de',
   form: {
     cancel: 'Schließen',
     collectionsXslt: 'Collection XSLT Definition',
     collectionsXsltHint: 'Laden Sie hier die XSLT Definition für Ihre Collections hoch.',
-    download: 'Zip herunterladen',
+    downloadXslt: 'XSLT herunterladen',
+    downloadZip: 'Zip herunterladen',
     licencesXslt: 'Lizenzen XSLT Definition',
     licencesXsltHint: 'Laden Sie hier die XSLT Definition für Ihre Lizenzen hoch.',
     modsXml: 'MODS-XML',
@@ -25,4 +25,5 @@ export default {
     subtitle: 'Hier können Sie die transformierte MODS XML anschauen und exportieren.',
     title: 'Umgewandelte XML',
   },
+  uploadError: 'Eine oder mehrere Dateien entsprechen nicht dem erwartetem Format.',
 };

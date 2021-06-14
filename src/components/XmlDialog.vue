@@ -29,10 +29,16 @@
 
       <q-card-actions>
         <q-btn
-          :label="$t('form.download')"
+          :label="$t('form.downloadZip')"
           color="primary"
           class="q-ml-sm"
           @click="onDownload"
+        />
+        <q-btn
+          :label="$t('form.downloadXslt')"
+          color="primary"
+          class="q-ml-sm"
+          @click="onDownloadXslt"
         />
         <q-space />
         <q-btn
@@ -48,6 +54,7 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import { saveAs } from 'file-saver';
 import { createZip } from 'src/helpers';
 
@@ -61,9 +68,14 @@ export default {
       type: String,
       required: true,
     },
+    xslt: {
+      type: String,
+      required: true,
+    },
   },
   emits: ['close', 'update:modelValue'],
   setup(props) {
+    const showXslt = ref(false);
     const onDownload = () => {
       createZip(props.xml)
         .then((content) => {
@@ -71,8 +83,17 @@ export default {
         });
     };
 
+    const onDownloadXslt = () => {
+      saveAs(
+        new Blob([props.xslt], { type: 'application/xslt+xml;charset=utf-8' }),
+        'mods-opus.xslt',
+      );
+    };
+
     return {
       onDownload,
+      onDownloadXslt,
+      showXslt,
     };
   },
 };

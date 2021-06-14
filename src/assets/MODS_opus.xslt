@@ -353,13 +353,206 @@
 					<!--Collection ist HSD spezifisch / hier wird es direkt den entsprechenden Fachbereichen zugeordnet
 					*****
 					Collection is HSD specific / here it is directly assigned to the corresponding departments-->
-					__COLLECTIONS__DEFIONTION__
+					<collections>
+						<collection>
+							<xsl:attribute name="id">
+								<xsl:choose>
+								<!-- IDs sichtbar, wenn man in die Sammlung reingeht und sich die URL anschaut.
+								Beispiel für Fachbereich Architektur:
+								https://opus4.kobv.de/opus4-hs-duesseldorf/solrsearch/index/search/searchtype/collection/id/16221
+								In Citavi wurde ein Schlagwort gesetzt: A_FBA, dadurch findet dann die Zuordnung statt
+								*****
+								IDs visible when you go into the collection and look at the URL.. 
+								Example for architecture department:
+								https://opus4.kobv.de/opus4-hs-duesseldorf/solrsearch/index/search/searchtype/collection/id/16221
+								In Citavi a keyword was set: A_FBA, by this the assignment takes place then.-->
+								
+								<!-- Fachbereich / Department-->
+									<xsl:when test="subject[contains(topic,'FBA')]">
+										<xsl:text>16221</xsl:text>
+									</xsl:when>						
+									<xsl:when test="subject[contains(topic,'FBD')]">
+										<xsl:text>16223</xsl:text>
+									</xsl:when>		
+									<xsl:when test="subject[contains(topic,'FBEI')]">
+										<xsl:text>16224</xsl:text>
+									</xsl:when>
+									<xsl:when test="subject[contains(topic,'FBMV')]">
+										<xsl:text>16225</xsl:text>
+									</xsl:when>										
+									<xsl:when test="subject[contains(topic,'FBM')]">
+										<xsl:text>16226</xsl:text>
+									</xsl:when>
+									<xsl:when test="subject[contains(topic,'FBSK')]">
+										<xsl:text>16227</xsl:text>
+									</xsl:when>	
+									<xsl:when test="subject[contains(topic,'FBW')]">
+										<xsl:text>16228</xsl:text>
+									</xsl:when>
+									<xsl:when test="subject[contains(topic,'BIB')]">
+										<xsl:text>16229</xsl:text>
+									</xsl:when>
+									<xsl:when test="subject[contains(topic,'Verwaltung')]">
+										<xsl:text>16222</xsl:text>
+									</xsl:when>
+									<xsl:when test="subject[contains(topic,'CIT')]">
+										<xsl:text>16230</xsl:text>
+									</xsl:when>										
+									<xsl:otherwise>
+										<xsl:text>16219</xsl:text>
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:attribute>
+						</collection>
+						
+						<!-- Fachdisziplin in DDC / Discipline in DDC-->
+						<collection>
+							<xsl:attribute name="id">
+								<xsl:choose>
+									<xsl:when test="subject[contains(topic,'FBSK')]">
+										<xsl:text>374</xsl:text>
+									</xsl:when>
+									<xsl:when test="subject[contains(topic,'FBW')]">
+										<xsl:text>398</xsl:text>
+									</xsl:when>
+									<xsl:when test="subject[contains(topic,'FBMV')]">
+										<xsl:text>661</xsl:text>
+									</xsl:when>
+									<xsl:when test="subject[contains(topic,'FBM')]">
+										<xsl:text>116</xsl:text>
+									</xsl:when>
+									<xsl:when test="subject[contains(topic,'FBEI')]">
+										<xsl:text>661</xsl:text>
+									</xsl:when>
+									<xsl:when test="subject[contains(topic,'CIT')]">
+										<xsl:text>112</xsl:text>
+									</xsl:when>
+								</xsl:choose>
+							</xsl:attribute>
+						</collection>
+						
+						<!-- Open Access-->
+						<xsl:if test="subject[contains(topic,'OA')]">
+							<collection>
+								<xsl:attribute name="id">
+									<xsl:text>16201</xsl:text>
+								</xsl:attribute>
+							</collection>
+						</xsl:if>		
+  
+						<!-- Peer Reviewed-->
+						<xsl:if test="subject[contains(topic,'peer')]">
+							<collection>
+								<xsl:attribute name="id">
+									<xsl:text>16248</xsl:text>
+								</xsl:attribute>
+							</collection>
+						</xsl:if>	
+						
+						<!-- Redaktionell-->
+						<xsl:if test="subject[contains(topic,'redaktionell')]">
+							<collection>
+								<xsl:attribute name="id">
+									<xsl:text>16247</xsl:text>
+								</xsl:attribute>
+							</collection>
+						</xsl:if>	
+									
+						
+						<!-- Open-Access-Weg / Open-Access-Way -->
+						<xsl:if test="contains(classification,'Gold')">
+							<collection>
+								<xsl:attribute name="id">
+									<xsl:text>16273</xsl:text>								
+								</xsl:attribute>
+							</collection>
+						</xsl:if>	
+						
+						<xsl:if test="contains(classification,'Hybrid')">
+							<collection>
+								<xsl:attribute name="id">
+									<xsl:text>16275</xsl:text>								
+								</xsl:attribute>
+							</collection>
+						</xsl:if>	
+						
+						<xsl:if test="contains(classification,'Grün')">
+							<collection>
+								<xsl:attribute name="id">
+									<xsl:text>16274</xsl:text>								
+								</xsl:attribute>
+							</collection>
+						</xsl:if>	
+						
+						<xsl:if test="contains(classification,'Bronze')">
+							<collection>
+								<xsl:attribute name="id">
+									<xsl:text>16276</xsl:text>								
+								</xsl:attribute>
+							</collection>
+						</xsl:if>	
+						
+						<xsl:if test="contains(classification,'Diamant')">
+							<collection>
+								<xsl:attribute name="id">
+									<xsl:text>16277</xsl:text>								
+								</xsl:attribute>
+							</collection>
+						</xsl:if>
+					</collections>
 					
 					<!-- Lizenzen - wenn es keine gibt wird standardmäßig immer auf "Keine Lizenz - Nur Metadaten gestellt" hingewiesen
 					*****
 					Licenses - if there are none, the default is always "No license - Only metadata provided"-->
-					__LICENCES__DEFINITION__
 					
+					<licences>
+						<licence>
+							<xsl:attribute name="id">
+								<xsl:choose>
+									<xsl:when test="subject[contains(topic,'CC_BY_4.0')]">
+										<xsl:text>13</xsl:text>
+									</xsl:when>
+									<xsl:when test="subject[contains(topic,'CC_BY_SA_4.0')]">
+										<xsl:text>14</xsl:text>
+									</xsl:when>
+									<xsl:when test="subject[contains(topic,'CC_BY_NC_4.0')]">
+										<xsl:text>15</xsl:text>
+									</xsl:when>
+									<xsl:when test="subject[contains(topic,'CC_BY_ND_4.0')]">
+										<xsl:text>16</xsl:text>
+									</xsl:when>
+									<xsl:when test="subject[contains(topic,'CC_BY_NC_SA_4.0')]">
+										<xsl:text>17</xsl:text>
+									</xsl:when>
+									<xsl:when test="subject[contains(topic,'CC_BY_NC_ND_4.0')]">
+										<xsl:text>18</xsl:text>
+									</xsl:when>
+									<xsl:when test="subject[contains(topic,'CC_BY_3.0')]">
+										<xsl:text>4</xsl:text>
+									</xsl:when>
+									<xsl:when test="subject[contains(topic,'CC_BY_SA_3.0')]">
+										<xsl:text>5</xsl:text>
+									</xsl:when>
+									<xsl:when test="subject[contains(topic,'CC_BY_ND_3.0')]">
+										<xsl:text>6</xsl:text>
+									</xsl:when>
+									<xsl:when test="subject[contains(topic,'CC_BY_NC_3.0')]">
+										<xsl:text>8</xsl:text>
+									</xsl:when>
+									<xsl:when test="subject[contains(topic,'CC_BY_NC_ND_3.0')]">
+										<xsl:text>3</xsl:text>
+									</xsl:when>
+									<xsl:when test="subject[contains(topic,'CC_BY_NC_SA_3.0')]">
+										<xsl:text>7</xsl:text>
+									</xsl:when>
+							
+									<xsl:otherwise>
+										<xsl:text>20</xsl:text>
+									</xsl:otherwise>
+								</xsl:choose>
+							</xsl:attribute>
+						</licence>
+					</licences>
 					
 					
 					<identifiers>

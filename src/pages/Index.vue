@@ -82,23 +82,17 @@
             flat
             class="q-ml-sm"
           />
-          <q-space />
-          <q-btn
-            type="a"
-            flat
-            text-color="primary"
-            @click="onContact"
-          >
-            {{ $t('contact') }}
-          </q-btn>
         </q-card-actions>
       </q-card>
-
+      <div class="text-center q-mt-sm text-caption">
+        {{ $t('contact') }}
+      </div>
     </q-form>
 
     <XmlDialog
       v-model="showDialog"
       :xml="transformedXml"
+      :xslt="transformedXslt"
       @close="onCancel"
     />
   </q-page>
@@ -107,7 +101,7 @@
 <script>
 import { defineComponent, ref, toRaw } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { openURL } from 'quasar';
+import { useQuasar } from 'quasar';
 import { transformXML } from 'src/helpers';
 import XmlDialog from 'src/components/XmlDialog.vue';
 
@@ -115,6 +109,7 @@ export default defineComponent({
   components: { XmlDialog },
   setup() {
     const { t } = useI18n();
+    const $q = useQuasar();
     const model = ref({
       modsXml: null,
       collectionsXslt: null,
@@ -122,33 +117,37 @@ export default defineComponent({
     });
     const showDialog = ref(false);
     const transformedXml = ref('');
+    const transformedXslt = ref('');
 
     const onSubmit = () => {
       const files = toRaw(model.value);
       transformXML(files)
-        .then((xmlString) => {
+        .then(([xmlString, xsltString]) => {
           transformedXml.value = xmlString;
+          transformedXslt.value = xsltString;
           showDialog.value = true;
+        })
+        .catch(() => {
+          $q.notify({
+            type: 'negative',
+            message: t('uploadError'),
+          });
         });
     };
 
     const onReset = () => {
       model.value = {
         modsXml: null,
+        collectionsXslt: null,
+        licencesXslt: null,
       };
     };
 
     const onCancel = () => {
       showDialog.value = false;
-      transformXML.value = '';
-      onReset();
     };
 
     const showSize = ({ totalSize }) => totalSize;
-
-    const onContact = () => openURL(
-      t('contactMailTo'),
-    );
 
     return {
       model,
@@ -156,9 +155,9 @@ export default defineComponent({
       onReset,
       showSize,
       onCancel,
-      onContact,
       showDialog,
       transformedXml,
+      transformedXslt,
     };
   },
 });

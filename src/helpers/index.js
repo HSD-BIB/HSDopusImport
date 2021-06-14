@@ -23,8 +23,18 @@ export function transformXML(files) {
       licencesXslt,
     ]) => {
       const finalXsltString = xsltString
-        .replace('__COLLECTIONS__DEFIONTION__', collectionsXslt)
-        .replace('__LICENCES__DEFINITION__', licencesXslt);
+        .replace(
+          '__COLLECTIONS__DEFIONTION__',
+          collectionsXslt
+            .replace(/<xsl:stylesheet (.*)>/, '')
+            .replace(/<\/xsl:stylesheet>/, ''),
+        )
+        .replace(
+          '__LICENCES__DEFINITION__',
+          licencesXslt
+            .replace(/<xsl:stylesheet (.*)>/, '')
+            .replace(/<\/xsl:stylesheet>/, ''),
+        );
 
       const xmlString = modsXml
         .replace(/dcterms:/g, '')
@@ -35,7 +45,10 @@ export function transformXML(files) {
       const xsltProcessor = new XSLTProcessor();
       xsltProcessor.importStylesheet(xsltDoc);
       const resultDocument = xsltProcessor.transformToDocument(xmlDoc);
-      return resultDocument.documentElement.outerHTML;
+      return [
+        resultDocument.documentElement.outerHTML,
+        finalXsltString,
+      ];
     });
 }
 
