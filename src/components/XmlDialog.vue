@@ -79,7 +79,7 @@ export default {
     const onDownload = () => {
       createZip(props.xml)
         .then((content) => {
-          saveAs(content, 'opos.zip');
+          saveAs(content, 'opus.zip');
         });
     };
 
