@@ -83,12 +83,14 @@
             class="q-ml-sm"
           />
           <q-space />
-          <a
-            :href="$t('contactMailTo')"
-            class="text-primary"
+          <q-btn
+            type="a"
+            flat
+            text-color="primary"
+            @click="onContact"
           >
             {{ $t('contact') }}
-          </a>
+          </q-btn>
         </q-card-actions>
       </q-card>
 
@@ -104,12 +106,15 @@
 
 <script>
 import { defineComponent, ref, toRaw } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { openURL } from 'quasar';
 import { transformXML } from 'src/helpers';
 import XmlDialog from 'src/components/XmlDialog.vue';
 
 export default defineComponent({
   components: { XmlDialog },
   setup() {
+    const { t } = useI18n();
     const model = ref({
       modsXml: null,
       collectionsXslt: null,
@@ -141,12 +146,17 @@ export default defineComponent({
 
     const showSize = ({ totalSize }) => totalSize;
 
+    const onContact = () => openURL(
+      t('contactMailTo'),
+    );
+
     return {
       model,
       onSubmit,
       onReset,
       showSize,
       onCancel,
+      onContact,
       showDialog,
       transformedXml,
     };
